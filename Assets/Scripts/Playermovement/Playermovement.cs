@@ -64,14 +64,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.CompareTag("Hazard"))
         {
-            // Lose condition: send the player back to the start.
-            Debug.Log("You Lose! Touched a hazard.");
+            GameManager.Instance.Lose();
             transform.position = new Vector3(0, 1, 0);
         }
         else if (other.CompareTag("Goal"))
         {
-            // Win condition: log a message for now.
-            Debug.Log("You Win! Reached the goal.");
+            GameManager.Instance.Win();
         }
     }
     // A coroutine: code that can pause and resume over time.
