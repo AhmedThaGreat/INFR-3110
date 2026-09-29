@@ -1,7 +1,7 @@
 # 3D Coin Collector Platformer
 
-**Name: Ahmed Mounib
-**Student Number: 100791126
+Name: Ahmed Mounib
+Student Number: 100791126
 
 ## Gameplay Loop
 The player moves and jumps through a 3D level, collecting coins for points
@@ -10,7 +10,7 @@ resets their position on contact. Reaching the goal completes the level.
 
 ## Design Patterns Used
 
-### Singleton — GameManager
+### Singleton â€” GameManager
 
 ```mermaid
 classDiagram
@@ -28,7 +28,7 @@ classDiagram
     Singleton~T~ <|-- GameManager
 ```
 
-### Factory — PickupFactory
+### Factory â€” PickupFactory
 
 ```mermaid
 classDiagram
@@ -72,7 +72,4 @@ managers giving conflicting numbers. Factory makes sense for pickups
 because it keeps all the object-creation logic in one place, so I can
 add new pickup types later without changing the code that spawns them.
 
-## External Assets Used
-[List anything you didn't make yourself here, e.g. "Quaternius Ultimate
-Platformer Pack (CC0) — character model and animations" — leave as "None,
-all assets are original" if you haven't swapped in outside assets yet.]
+"None, all assets are original"
