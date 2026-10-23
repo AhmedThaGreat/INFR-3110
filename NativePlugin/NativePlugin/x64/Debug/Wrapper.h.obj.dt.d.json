@@ -1,0 +1,13 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\game dev\\infr 3110\\nativeplugin\\nativeplugin\\wrapper.h",
+        "ProvidedModule": "",
+        "Includes": [
+            "c:\\game dev\\infr 3110\\nativeplugin\\nativeplugin\\pluginsettings.h",
+            "c:\\game dev\\infr 3110\\nativeplugin\\nativeplugin\\vector2d.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

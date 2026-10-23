@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="NativePlugin/NativePlugin.vcxproj" Id="d514538f-9775-4fbf-b56a-286f1702c7c8" />
+</Solution>

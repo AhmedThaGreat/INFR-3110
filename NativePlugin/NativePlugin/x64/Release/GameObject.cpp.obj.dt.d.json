@@ -1,0 +1,14 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\game dev\\infr 3110\\nativeplugin\\nativeplugin\\gameobject.cpp",
+        "ProvidedModule": "",
+        "Includes": [
+            "c:\\game dev\\infr 3110\\nativeplugin\\nativeplugin\\gameobject.h",
+            "c:\\game dev\\infr 3110\\nativeplugin\\nativeplugin\\vector2d.h",
+            "c:\\game dev\\infr 3110\\nativeplugin\\nativeplugin\\pluginsettings.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
