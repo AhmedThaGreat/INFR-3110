@@ -16,7 +16,7 @@ int GameObject::GetID() const
 // Updates the ID
 void GameObject::SetID(int id)
 {
-    m_id = id + 200;
+    m_id = id;
 }
 
 // Returns the current position

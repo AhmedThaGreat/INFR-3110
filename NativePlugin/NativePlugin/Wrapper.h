@@ -17,6 +17,9 @@ extern "C"
     PLUGIN_API Vector2D GetPosition();
     PLUGIN_API void SetPosition(float x, float y);
 
+    PLUGIN_API int RegisterCoin(float now);
+    PLUGIN_API void ResetCombo();
+
 #ifdef __cplusplus
 }
 #endif

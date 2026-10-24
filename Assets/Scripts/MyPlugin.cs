@@ -21,6 +21,15 @@ public static class MyPlugin
     [DllImport("NativePlugin")]
     private static extern void SetPosition(float x, float y);
 
+    // Asks the C++ combo system for the current multiplier (x1 to x5).
+    [DllImport("NativePlugin")]
+    public static extern int RegisterCoin(float now);
+
+    // Clears the combo streak in the C++ code.
+    [DllImport("NativePlugin")]
+
+    public static extern void ResetCombo();
+
     public static int ID
     {
         get { return GetID(); }
