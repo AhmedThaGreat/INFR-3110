@@ -1,24 +1,23 @@
 using UnityEngine;
 
-// An "enum" is just a labeled list of options. This lets us say
-// "make a Coin" or "make a PowerUp" using plain words instead of
-// numbers or strings.
+// An "enum" is a labeled list of options, so we can say
+// "make a Gem" using plain words.
 public enum PickupType
 {
     Coin,
-    PowerUp
+    PowerUp,
+    Gem
 }
 
 public class PickupFactory : MonoBehaviour
 {
-    // Drag your Coin and PowerUp PREFABS (not scene objects) into
-    // these slots in the Inspector — these are the "blueprints."
+    // Drag the PREFABS (the blueprints) into these slots in the Inspector.
     public GameObject coinPrefab;
     public GameObject powerUpPrefab;
+    public GameObject gemPrefab;
 
-    // THIS is the actual factory method. You tell it what type you
-    // want and where, and it figures out which prefab to build —
-    // the calling code never needs to know the details.
+    // The factory method: say what you want and where, and it picks the
+    // right prefab. The calling code never needs to know the details.
     public GameObject CreatePickup(PickupType type, Vector3 position)
     {
         GameObject prefabToSpawn = null;
@@ -31,6 +30,9 @@ public class PickupFactory : MonoBehaviour
             case PickupType.PowerUp:
                 prefabToSpawn = powerUpPrefab;
                 break;
+            case PickupType.Gem:
+                prefabToSpawn = gemPrefab;
+                break;
         }
 
         if (prefabToSpawn != null)
@@ -40,13 +42,12 @@ public class PickupFactory : MonoBehaviour
         return null;
     }
 
-    // DEMO: as soon as the game starts, use the factory to spawn a
-    // few pickups automatically — this is just so you can SEE it
-    // working without extra setup.
+    // DEMO: spawn a few pickups at the start so you can see it working.
     void Start()
     {
         CreatePickup(PickupType.Coin, new Vector3(-4, 1, 4));
         CreatePickup(PickupType.Coin, new Vector3(-2, 1, 4));
         CreatePickup(PickupType.PowerUp, new Vector3(0, 1, 4));
+        CreatePickup(PickupType.Gem, new Vector3(2, 1, 4));
     }
 }

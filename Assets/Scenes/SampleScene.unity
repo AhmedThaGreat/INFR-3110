@@ -732,6 +732,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PickupFactory
   coinPrefab: {fileID: 4015711044451292083, guid: fa585dc813dd20f43a9985083a395c7a, type: 3}
   powerUpPrefab: {fileID: 648046611090092429, guid: 7ad45d1ceb5165b4db6c5c6584fa38e7, type: 3}
+  gemPrefab: {fileID: 4015711044451292083, guid: 5d09958df221f2d4a842a4ffe1ae468f, type: 3}
 --- !u!4 &1211043527
 Transform:
   m_ObjectHideFlags: 0
