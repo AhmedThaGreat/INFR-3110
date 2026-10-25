@@ -39,6 +39,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // Teleports the player back to the start. A CharacterController ignores
+    // normal position changes, so we switch it off for a moment, move the
+    // player, then switch it back on.
+    public void Respawn()
+    {
+        controller.enabled = false;
+        transform.position = new Vector3(0f, 1f, 0f);
+        velocity = Vector3.zero;     // stop any falling or jumping speed
+        controller.enabled = true;
+    }
+
+
     void Update()
     {
         // If grounded and falling, reset vertical speed so it
@@ -66,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("Hazard"))
         {
             GameManager.Instance.Lose();
-            transform.position = new Vector3(0, 1, 0);
+            Respawn();
         }
         else if (other.CompareTag("Goal"))
         {
