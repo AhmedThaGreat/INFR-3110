@@ -979,7 +979,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 85aa68b22139ca64999eef912e3abd93, type: 3}
       propertyPath: m_Name
-      value: Treasure_Chest_Full
+      value: Treasure_Chest_Full (Goal)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
