@@ -3,15 +3,13 @@
 **INFR 3110U – Game Engine Design & Implementation (Ontario Tech University)**
 **Course Project – Check-In (Project Progression)**
 
-| | |
-|---|---|
-| **Name** | Ahmed Mounib |
-| **Student number** | 100791126 |
-| **Team** | Individual (1 member) |
-| **Engine** | Unity 6 (6000.5.8f1), C#, and a small C++ plugin |
-| **Release / build** | [Download the build](https://github.com/AhmedThaGreat/INFR-3110/releases) |
-| **Video report** | [Watch the video](VIDEO_LINK_HERE) |
-| **Project board** | [GitHub Projects board](https://github.com/users/AhmedThaGreat/projects/1/views/1) |
+- **Name:** Ahmed Mounib
+- **Student number:** 100791126
+- **Team:** Individual (1 member)
+- **Engine:** Unity 6 (6000.5.8f1), C#, and a small C++ plugin
+- **Release / build:** [Download the build](https://github.com/AhmedThaGreat/INFR-3110/releases/latest)
+- **Video report:** [Watch the video](VIDEO_LINK_HERE)
+- **Project board:** [GitHub Projects board](https://github.com/users/AhmedThaGreat/projects/1/views/1)
 
 **More detail on the code:** [flowcharts](docs/flowcharts.md)
 
