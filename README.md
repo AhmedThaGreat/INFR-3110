@@ -7,7 +7,7 @@
 - **Student number:** 100791126
 - **Team:** Individual (1 member)
 - **Engine:** Unity 6 (6000.5.8f1), C#, and a small C++ plugin
-- **Release / build:** [Download the build](https://github.com/AhmedThaGreat/INFR-3110/releases/latest)
+- **Release / build:** [Download the build](https://github.com/AhmedThaGreat/INFR-3110/releases/tag/v1.0-checkin)
 - **Video report:** [Watch the video](VIDEO_LINK_HERE)
 - **Project board:** [GitHub Projects board](https://github.com/users/AhmedThaGreat/projects/1/views/1)
 
@@ -23,7 +23,7 @@ I am working alone. I am a 3D environment artist taking this course as a graduat
 
 ### Roles and responsibilities (Ahmed Mounib, 100%)
 
-- **3D / environment artist:** modelled and textured the skull coin, the crystal Gem and the treasure chest (Blender, Substance Painter), and built the look of the scene (sky, lighting, ground).
+- **3D / environment artist:** modelled and textured the skull coin, the crystal Gem and the treasure chest (Blender, Substance Painter), modelled the spike trap, and built the look of the scene (sky, lighting, ground).
 - **Game designer:** came up with the game, the pickups, the pirate treasure theme, and the idea of rewarding fast play.
 - **Programmer (with AI help):** put the AI-written scripts into Unity and Visual Studio, built the plugin, and fixed what broke.
 - **Tester:** played and tested every feature, and reported errors and results back (for example, the "You Win!" message appearing twice, and the Hazard not sending the player back).
@@ -77,7 +77,7 @@ The scene is small on purpose, so each pattern is easy to see and test.
 
 ![Annotated scene overview](docs/images/scene-annotated.png)
 
-*Annotated screenshot: labels for the Player, a skull coin, a power-up, the hazard and the goal (the treasure chest). The hazard, power-up and player are still placeholder shapes.*
+*Annotated screenshot: labels for the Player, skull coins, the gem, power-ups, the hazard (my spike model) and the goal (my treasure chest). The power-ups and the player are still placeholder shapes.*
 
 **Why this scene suits the assignment:** it needs one place that keeps the score (Singleton), several kinds of items that get placed in the level (Factory), controls that can be changed (Command), and a small calculation that the C++ plugin can do.
 
@@ -104,9 +104,9 @@ I am an environment artist, so I wanted the scene to look like a real game, not 
 
 ![Crystal gem model](docs/images/gem-blender.png)
 
-**Treasure chest:** the Goal is now my own treasure chest, modelled in Blender and textured in Substance Painter.
+**Treasure chest and spike trap:** the Goal is now my own treasure chest (modelled in Blender, textured in Substance Painter), and the Hazard is my own spike model.
 
-**Still in progress:** the Hazard, the power-up and the player are still simple placeholder shapes for now.
+**Still in progress:** the power-up and the player are still simple placeholder shapes for now.
 
 ## 4. Singleton Pattern: `GameManager`
 
@@ -293,16 +293,17 @@ I used **Claude** as a coding and setup assistant throughout this project.
 I am an artist, not a programmer, so **most of the C# and C++ code in this project was written by Claude.** Here is how we worked:
 
 - **How I plan:** because programming is not my strength, I first worked out how each pattern should behave by drawing **flowcharts** on paper (what happens when a coin is collected, what a key press does, what the factory returns). Then I used Claude to help me turn those plans into working code. Clean copies of those flowcharts are in the `docs` folder ([flowcharts](docs/flowcharts.md)).
+- **Images and README:** Claude also helped with this README. It helped me create the layout and wording, and it added the numbered labels and legend to my annotated scene screenshot, and resized and renamed my screenshots. The screenshots themselves, and the art in them, are my own.
 
 ### Third-party resources
 
 | Item | Source | Notes |
 | --- | --- | --- |
 | Unity 6 (6000.5.8f1), URP template and `TutorialInfo` folder | Unity Technologies | Default project template, used as provided. |
-| Skull coin, Gem and treasure chest models and textures | **Original** (Ahmed Mounib) | Modelled in Blender, textured in Substance Painter. |
+| Skull coin, Gem, treasure chest and spike models and textures | **Original** (Ahmed Mounib) | Modelled in Blender, textured in Substance Painter. |
 | Unity Manual and Scripting API (documentation) | [docs.unity3d.com](https://docs.unity3d.com/) | Used to look up how Unity features work (for example CharacterController, prefabs, lighting). |
 | Procedural skybox shader, URP Lit shader, post-processing effects | Unity built-in | Used with my own settings. |
-| Sphere, cube, capsule | Unity built-in primitives | Still used for some placeholders (power-up, hazard, player). |
+| Sphere, capsule | Unity built-in primitives | Still used for some placeholders (power-up, player). |
 | `Singleton<T>`, `Pickup`, `Coin`, `PowerUp` | Built from course lecture and lab material | Then extended with the combo score, the Gem, and the Command system. |
 
 No other third-party assets, plugins or code are used.

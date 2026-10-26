@@ -17,6 +17,10 @@ public class GameManager : Singleton<GameManager>
     private string message = "";
     private float messageUntil = 0f;
 
+    // A small message under the score (power-up / gem collected).
+    private string pickupMessage = "";
+    private float pickupMessageUntil = 0f;
+
     // The native DLL keeps its combo state between Play sessions in the
     // editor, so we clear it every time the game starts.
     private void Start()
@@ -34,6 +38,13 @@ public class GameManager : Singleton<GameManager>
         lastCoinTime = Time.time;
         score += amount * multiplier;
         Debug.Log("Score: " + score + "  (combo x" + multiplier + ")");
+    }
+
+    // Called by pickups (Gem, PowerUp) to show a short message on screen.
+    public void ShowPickupMessage(string text, float seconds = 2.5f)
+    {
+        pickupMessage = text;
+        pickupMessageUntil = Time.time + seconds;
     }
 
     // Called when the player reaches the Goal.
@@ -66,16 +77,25 @@ public class GameManager : Singleton<GameManager>
         style.fontSize = size;
         style.fontStyle = FontStyle.Bold;
         style.normal.textColor = Color.white;
+        style.wordWrap = false;   // never wrap the score onto a second line
 
         // Show the combo only while it is still "alive" (3 seconds).
         int shownCombo = (Time.time - lastCoinTime <= 3f) ? lastMultiplier : 1;
-        GUI.Label(new Rect(20, 20, 600, size * 2),
+        GUI.Label(new Rect(20, 20, Screen.width - 40, size * 2),
                   "Score: " + score + "     Combo x" + shownCombo, style);
+
+        // Small pickup message under the score (power-up / gem).
+        if (pickupMessage != "" && Time.time < pickupMessageUntil)
+        {
+            GUI.Label(new Rect(20, 20 + size * 1.6f, Screen.width - 40, size * 2),
+                      pickupMessage, style);
+        }
 
         // Win / lose message in the middle of the screen.
         if (message != "" && Time.time < messageUntil)
         {
             style.alignment = TextAnchor.MiddleCenter;
+            style.wordWrap = true;
             style.fontSize = size * 2;
             GUI.Label(new Rect(0, Screen.height * 0.35f, Screen.width, size * 3),
                       message, style);

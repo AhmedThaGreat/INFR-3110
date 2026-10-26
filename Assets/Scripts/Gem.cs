@@ -9,5 +9,6 @@ public class Gem : Pickup
     protected override void Collect(GameObject player)
     {
         GameManager.Instance.AddScore(PointValue);
+        GameManager.Instance.ShowPickupMessage("Gem collected!");
     }
 }
