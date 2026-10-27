@@ -8,7 +8,7 @@
 - **Team:** Individual (1 member)
 - **Engine:** Unity 6 (6000.5.8f1), C#, and a small C++ plugin
 - **Release / build:** [Download the build](https://github.com/AhmedThaGreat/INFR-3110/releases/tag/v1.0-checkin)
-- **Video report:** [Watch the video](VIDEO_LINK_HERE)
+- **Video report:** [Watch the video](https://youtu.be/3yeZ3kj07J0)
 - **Project board:** [GitHub Projects board](https://github.com/users/AhmedThaGreat/projects/1/views/1)
 
 **More detail on the code:** [flowcharts](docs/flowcharts.md)
@@ -239,7 +239,7 @@ classDiagram
 **How it is built**
 
 - A Visual Studio C++ project that builds a DLL (the plugin file, `NativePlugin.dll`).
-- The functions are exposed with `extern "C"` so Unity can find them by their plain names: `GetID`, `SetID`, `GetPosition`, `SetPosition`, `RegisterCoin`, `ResetCombo`. I checked this with the `dumpbin /exports` tool.
+- The functions are exposed with `extern "C"` so Unity can find them by their plain names: `GetID`, `SetID`, `GetPosition`, `SetPosition`, `RegisterCoin`, `ResetCombo`.
 - The DLL sits in `Assets/Plugins`, and a C# script (`MyPlugin.cs`) calls the functions with `[DllImport("NativePlugin")]`.
 
 ```mermaid
@@ -264,7 +264,7 @@ flowchart TD
 **Problems I ran into and fixed**
 
 - The DLL kept disappearing after I built it. Windows Defender was quarantining it, so I added a folder exclusion.
-- Unity showed an error saying it could not find the function `SetID`. `dumpbin` showed the DLL had no exports, because I had typed `PLUGIN_EXPORTS` into the wrong box in the Visual Studio settings. I moved it to "Preprocessor Definitions", rebuilt, and it worked.
+- Unity showed an error saying it could not find the function `SetID`. The DLL had no exports, because I had typed `PLUGIN_EXPORTS` into the wrong box in the Visual Studio settings. I moved it to "Preprocessor Definitions", rebuilt, and it worked.
 - To prove the game was really calling the C++ code, I temporarily made the plugin add 200 to the ID, and Unity printed 210 instead of 10.
 
 ## 8. Polish and bug fixes
