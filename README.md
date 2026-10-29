@@ -17,7 +17,7 @@
 
 ## 1. Group Formation
 
-### Summary (100 words)
+### Summary 
 
 I am working alone. I am a 3D environment artist taking this course as a graduation requirement, so programming is not my main skill. Because of that, I picked a small game (a 3D coin collector) that one person can finish, where every required pattern has an obvious job. I broke the work into weekly steps, kept everything in this GitHub repository, and tracked tasks on a project board. I used an AI assistant (Claude) for most of the code, explained in Section 11. My own focus was the art, the scene, testing, and understanding each part.
 
