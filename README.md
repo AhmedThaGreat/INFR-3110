@@ -110,7 +110,7 @@ I am an environment artist, so I wanted the scene to look like a real game, not 
 
 ## 4. Singleton Pattern: `GameManager`
 
-**In my own words:** the `GameManager` is the scoreboard for the whole game. It keeps the score and decides what happens when you win or lose. A Singleton is a rule that makes sure there is only **one** scoreboard. Every coin and gem tells that same one scoreboard to add points, so the score can never get out of sync. In 3D terms, it is like having one master file that everything refers to instead of many copies that could disagree.
+The `GameManager` is the scoreboard for the whole game. It keeps the score and decides what happens when you win or lose. A Singleton is a rule that makes sure there is only **one** scoreboard. Every coin and gem tells that same one scoreboard to add points, so the score can never get out of sync. In 3D terms, it is like having one master file that everything refers to instead of many copies that could disagree.
 
 ```mermaid
 classDiagram
@@ -144,7 +144,7 @@ classDiagram
 
 ## 5. Command Pattern: input and changing the jump key
 
-**In my own words:** before, the player script looked straight at the keyboard ("if W is pressed, move forward"). Now each action (move forward, move left, jump) is its own small piece called a **command**, and a separate script (`InputHandler`) keeps a list that says "this key runs that command". It works like the keymap in Blender: the action and the key that triggers it are separate things, so you can change the key without changing the action. That is how I can press **F2** in the game and pick a new jump key while it is running.
+Before, the player script looked straight at the keyboard ("if W is pressed, move forward"). Now each action (move forward, move left, jump) is its own small piece called a **command**, and a separate script (`InputHandler`) keeps a list that says "this key runs that command". It works like the keymap in Blender: the action and the key that triggers it are separate things, so you can change the key without changing the action. That is how I can press **F2** in the game and pick a new jump key while it is running.
 
 ```mermaid
 classDiagram
@@ -191,7 +191,7 @@ classDiagram
 
 ## 6. Factory Pattern: `PickupFactory`
 
-**In my own words:** the `PickupFactory` is like a spawn menu. I tell it "make a Gem here" and it picks the right prefab (a saved, ready-to-use object) and places it in the scene. Whoever asks does not need to know which prefab is behind the Gem. Coin, PowerUp and Gem share one parent (`Pickup`), which handles the touching and the point value once, so each pickup only has to say what happens when it is collected.
+The `PickupFactory` is like a spawn menu. I tell it "make a Gem here" and it picks the right prefab (a saved, ready-to-use object) and places it in the scene. Whoever asks does not need to know which prefab is behind the Gem. Coin, PowerUp and Gem share one parent (`Pickup`), which handles the touching and the point value once, so each pickup only has to say what happens when it is collected.
 
 ```mermaid
 classDiagram
@@ -234,7 +234,7 @@ classDiagram
 
 ## 7. Plugin / DLL: C++ combo system
 
-**In my own words:** a plugin is a small separate program, written in another language (C++), that Unity can call while the game runs. It is a bit like a Blender add-on that does one job for the main program. Mine keeps track of the **coin combo**. Every time a coin or gem is collected, the game asks the plugin "what is the multiplier now?". If you grabbed the last one within 3 seconds, the combo grows (up to x5). If you waited longer, it goes back to x1.
+A plugin is a small separate program, written in another language (C++), that Unity can call while the game runs. It is a bit like a Blender add-on that does one job for the main program. Mine keeps track of the **coin combo**. Every time a coin or gem is collected, the game asks the plugin "what is the multiplier now?". If you grabbed the last one within 3 seconds, the combo grows (up to x5). If you waited longer, it goes back to x1.
 
 **How it is built**
 
