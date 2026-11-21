@@ -3,72 +3,99 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // The "Invoker" in the Command pattern.
-// It reads the keyboard and runs the command linked to each key.
-// It never moves the player itself, it only calls Execute() on a command.
+// It watches the keyboard and runs the command linked to each key.
+// It never moves the player itself, it only calls Execute() / Undo().
+//
+// What changed since the check-in (feedback: "doing it every frame is a bit silly"):
+//  - Before: every walking command ran Execute() every single frame a key was held.
+//  - Now:    a command runs Execute() ONCE when its key goes down and Undo()
+//            ONCE when it comes up. Nothing runs while you just hold a key.
+//  - New RestartCommand on R (the pattern reused for a game action).
+//  - Rebind messages show in the HUD (through the Observer), not only the Console.
 public class InputHandler : MonoBehaviour
 {
     public PlayerMovement player; // drag the Player object here in the Inspector
 
-    // Keys that repeat every frame while held (walking).
-    private Dictionary<KeyCode, ICommand> holdBindings = new Dictionary<KeyCode, ICommand>();
+    // Every key and the command it is linked to.
+    private Dictionary<KeyCode, ICommand> bindings = new Dictionary<KeyCode, ICommand>();
 
-    // Keys that run once when pressed (jumping).
-    private Dictionary<KeyCode, ICommand> pressBindings = new Dictionary<KeyCode, ICommand>();
+    // Keys whose command is "on" right now, so Undo() only ever runs for a
+    // key we actually pressed.
+    private HashSet<KeyCode> keysDown = new HashSet<KeyCode>();
 
     private KeyCode jumpKey = KeyCode.Space; // the key currently linked to Jump
-    private ICommand jumpCommand;            // the Jump command object
+    private ICommand jumpCommand;
     private bool waitingForNewKey = false;   // true after F2 until a new key is pressed
 
     void Start()
     {
-        // Make the four walking commands once, then link keys to them.
         ICommand forward = new MoveCommand(player, 0f, 1f);
         ICommand back = new MoveCommand(player, 0f, -1f);
         ICommand left = new MoveCommand(player, -1f, 0f);
         ICommand right = new MoveCommand(player, 1f, 0f);
 
-        holdBindings[KeyCode.W] = forward;
-        holdBindings[KeyCode.UpArrow] = forward;
-        holdBindings[KeyCode.S] = back;
-        holdBindings[KeyCode.DownArrow] = back;
-        holdBindings[KeyCode.A] = left;
-        holdBindings[KeyCode.LeftArrow] = left;
-        holdBindings[KeyCode.D] = right;
-        holdBindings[KeyCode.RightArrow] = right;
+        bindings[KeyCode.W] = forward;
+        bindings[KeyCode.UpArrow] = forward;
+        bindings[KeyCode.S] = back;
+        bindings[KeyCode.DownArrow] = back;
+        bindings[KeyCode.A] = left;
+        bindings[KeyCode.LeftArrow] = left;
+        bindings[KeyCode.D] = right;
+        bindings[KeyCode.RightArrow] = right;
 
-        // Link the Jump key to the Jump command.
         jumpCommand = new JumpCommand(player);
-        pressBindings[jumpKey] = jumpCommand;
+        bindings[jumpKey] = jumpCommand;
+
+        bindings[KeyCode.R] = new RestartCommand();
     }
 
     void Update()
     {
-        // While rebinding, only listen for the new key.
         if (waitingForNewKey)
         {
             ListenForNewKey();
             return;
         }
 
-        // F2 starts rebinding the Jump key.
         if (Input.GetKeyDown(KeyCode.F2))
         {
+            ReleaseAllKeys();   // stop walking while choosing a key
             waitingForNewKey = true;
-            Debug.Log("Press the new key for Jump (Esc to cancel)...");
+            Say("Press the new key for Jump (Esc to cancel)...");
             return;
         }
 
-        // Run every walking command whose key is being held.
-        foreach (KeyValuePair<KeyCode, ICommand> binding in holdBindings)
+        foreach (KeyValuePair<KeyCode, ICommand> binding in bindings)
         {
-            if (Input.GetKey(binding.Key)) binding.Value.Execute();
+            // Key just went down: run the command once.
+            if (Input.GetKeyDown(binding.Key) && !keysDown.Contains(binding.Key))
+            {
+                keysDown.Add(binding.Key);
+                binding.Value.Execute();
+            }
+            // Key just came up: undo it once.
+            else if (Input.GetKeyUp(binding.Key) && keysDown.Contains(binding.Key))
+            {
+                keysDown.Remove(binding.Key);
+                binding.Value.Undo();
+            }
         }
+    }
 
-        // Run every command whose key was just pressed.
-        foreach (KeyValuePair<KeyCode, ICommand> binding in pressBindings)
+    // If the game window loses focus, Unity never sees the keys come up,
+    // so undo everything to stop the player walking on its own.
+    void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus) ReleaseAllKeys();
+    }
+
+    void ReleaseAllKeys()
+    {
+        foreach (KeyCode key in keysDown)
         {
-            if (Input.GetKeyDown(binding.Key)) binding.Value.Execute();
+            if (bindings.ContainsKey(key)) bindings[key].Undo();
         }
+        keysDown.Clear();
     }
 
     // Waits for the next key press and links it to the Jump command.
@@ -77,25 +104,32 @@ public class InputHandler : MonoBehaviour
         foreach (KeyCode key in Enum.GetValues(typeof(KeyCode)))
         {
             if (!Input.GetKeyDown(key)) continue;
+            if (key >= KeyCode.Mouse0 && key <= KeyCode.Mouse6) continue;   // right mouse is for looking
 
             if (key == KeyCode.Escape)
             {
                 waitingForNewKey = false;
-                Debug.Log("Rebind cancelled. Jump is still " + jumpKey);
+                Say("Rebind cancelled. Jump is still " + jumpKey);
             }
-            else if (holdBindings.ContainsKey(key))
+            else if (bindings.ContainsKey(key) && bindings[key] != jumpCommand)
             {
-                Debug.Log(key + " is used for walking. Press a different key.");
+                Say(key + " is already used. Press a different key.");
             }
             else
             {
-                pressBindings.Remove(jumpKey);       // unlink the old key
+                bindings.Remove(jumpKey);        // unlink the old key
                 jumpKey = key;
-                pressBindings[jumpKey] = jumpCommand; // link the new key
+                bindings[jumpKey] = jumpCommand; // link the new key
                 waitingForNewKey = false;
-                Debug.Log("Jump is now " + jumpKey);
+                Say("Jump is now " + jumpKey);
             }
             return;
         }
+    }
+
+    void Say(string text)
+    {
+        Debug.Log(text);
+        GameEvents.RaiseMessage(text);
     }
 }

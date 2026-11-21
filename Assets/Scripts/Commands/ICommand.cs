@@ -1,7 +1,14 @@
 // The Command pattern turns an action (like "jump") into an object.
-// Anything that can be done in the game and run with Execute() is a "command".
-// This interface is the rule every command follows.
+// Every command follows this rule:
+//   Execute() - do the action
+//   Undo()    - reverse it (for actions that can be reversed)
+//
+// Check-in feedback: "doing it every frame is a bit silly".
+// Before, a MoveCommand ran EVERY FRAME while a key was held.
+// Now a command runs ONCE when a key is pressed, and Undo() runs ONCE when
+// the key is released - so commands are only used for real events.
 public interface ICommand
 {
-    void Execute(); // Does the action
+    void Execute(); // does the action
+    void Undo();    // reverses it
 }

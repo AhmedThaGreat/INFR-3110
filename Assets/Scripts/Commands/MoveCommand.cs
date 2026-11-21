@@ -1,5 +1,9 @@
-// A command that walks the player in one fixed direction.
+// A command that starts the player walking in one direction.
 // We make four of these: forward, back, left and right.
+//
+// Execute() runs once when the key goes DOWN  -> start walking that way
+// Undo()    runs once when the key comes UP   -> stop walking that way
+// Holding W and D together just adds both directions = a diagonal.
 public class MoveCommand : ICommand
 {
     private PlayerMovement player; // who to move
@@ -15,6 +19,11 @@ public class MoveCommand : ICommand
 
     public void Execute()
     {
-        player.Move(x, z);
+        player.AddMoveDirection(x, z);
+    }
+
+    public void Undo()
+    {
+        player.AddMoveDirection(-x, -z);
     }
 }

@@ -6,18 +6,17 @@ public class PowerUp : Pickup
     public float speedBoostAmount = 3f;
     public float boostDuration = 5f;
 
-    // A DIFFERENT override of the same Collect() method - this is
-    // exactly what polymorphism means: one method name, many behaviours.
+    public override PickupType Type => PickupType.PowerUp;
+
+    // POLYMORPHISM: one method name (Collect), a different behaviour.
     protected override void Collect(GameObject player)
     {
-        Debug.Log("Collected a power-up! Speed boosted temporarily.");
-        GameManager.Instance.ShowPickupMessage(
-            "Power-up!  Speed boost for " + boostDuration.ToString("0") + " seconds");
+        GameEvents.RaiseMessage("Power-up! Speed boost for " + boostDuration.ToString("0") + " seconds");
 
-        PlayerMovement pm = player.GetComponent<PlayerMovement>();
-        if (pm != null)
+        PlayerMovement movement = player.GetComponent<PlayerMovement>();
+        if (movement != null)
         {
-            pm.StartCoroutine(pm.SpeedBoost(speedBoostAmount, boostDuration));
+            movement.StartCoroutine(movement.SpeedBoost(speedBoostAmount, boostDuration));
         }
     }
 }

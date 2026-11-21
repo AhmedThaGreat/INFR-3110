@@ -1,4 +1,5 @@
 // A command that makes the player jump.
+// A jump can't be taken back once it starts, so Undo() does nothing.
 public class JumpCommand : ICommand
 {
     private PlayerMovement player; // who should jump
@@ -12,4 +13,6 @@ public class JumpCommand : ICommand
     {
         player.Jump();
     }
+
+    public void Undo() { }
 }

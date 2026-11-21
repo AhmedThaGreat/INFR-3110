@@ -8,18 +8,19 @@ public class Spinner : MonoBehaviour
     public float bobSpeed = 2f;     // how fast it floats
 
     private Vector3 startPos;
+    private float timeOffset;
 
-    void Start()
+    // OnEnable instead of Start: a pooled pickup is turned on again at a NEW
+    // spot, so it has to remember its new starting point every time.
+    void OnEnable()
     {
         startPos = transform.position;
+        timeOffset = Random.Range(0f, 10f);   // so pickups don't all bob in sync
     }
 
     void Update()
     {
-        // Spin around the vertical axis.
         transform.Rotate(0f, spinSpeed * Time.deltaTime, 0f, Space.World);
-
-        // Float gently up and down around the start position.
-        transform.position = startPos + Vector3.up * Mathf.Sin(Time.time * bobSpeed) * bobHeight;
+        transform.position = startPos + Vector3.up * Mathf.Sin((Time.time + timeOffset) * bobSpeed) * bobHeight;
     }
 }

@@ -1,33 +1,51 @@
 using UnityEngine;
 
-// This is our BASE class. Coin and PowerUp will both inherit from it.
-// "abstract" means you can't put this script directly on an object by
-// itself — it only exists to be built upon by other classes.
+// BASE class for every pickup. Coin, Gem and PowerUp inherit from it.
+// "abstract" means it only exists to be built upon.
 public abstract class Pickup : MonoBehaviour
 {
-    // ENCAPSULATION: pointValue is private, so no other script can
-    // reach in and change it directly. [SerializeField] lets you still
-    // edit it in the Inspector, but only through the controlled
-    // property below.
+    // ENCAPSULATION: private, but editable in the Inspector.
     [SerializeField] private int pointValue = 1;
-
-    // A public "window" into the private field — read-only from outside.
     public int PointValue => pointValue;
 
-    // Unity calls this automatically when something touches this
-    // object's trigger collider.
+    // Each subclass says what kind of pickup it is (used by the factory's pools
+    // and by the PickupCollected event).
+    public abstract PickupType Type { get; }
+
+    // The factory that made this pickup. If it came from a factory it goes back
+    // to that factory's pool instead of being destroyed.
+    public PickupFactory Owner { get; set; }
+
+    private bool collected;
+
+    // A pooled pickup is turned on again when it is reused, so reset it here.
+    private void OnEnable()
+    {
+        collected = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (collected) return;                    // stops double pick-ups in one frame
+        if (!other.CompareTag("Player")) return;
+        if (GameManager.Instance != null && GameManager.Instance.State != GameState.Playing) return;
+
+        collected = true;
+        Collect(other.gameObject);
+
+        // Observer: announce it. Sound, achievements and the HUD react on their own.
+        GameEvents.RaisePickupCollected(Type, transform.position);
+
+        if (Owner != null)
         {
-            Collect(other.gameObject);
-            Destroy(gameObject); // pickup disappears once collected
+            Owner.ReturnPickup(this);   // back into the pool, ready to respawn
+        }
+        else
+        {
+            Destroy(gameObject);        // a pickup placed by hand in the scene
         }
     }
 
-    // POLYMORPHISM: this method has NO body here — it's just a promise
-    // that every subclass (Coin, PowerUp) must fill in its own version.
-    // When Collect() runs, C# automatically picks the correct version
-    // based on what type of pickup it actually is.
+    // POLYMORPHISM: every subclass fills in its own version.
     protected abstract void Collect(GameObject player);
 }
